@@ -1,0 +1,19 @@
+#mapapp {
+  height: 100vh;
+}
+
+#mapapp-menu {
+  height: 6vh;
+}
+
+#mapapp-content {
+  height: 94vh;
+}
+
+.basemap-gallery .active, .basemap-gallery img:hover {
+  filter: none;
+}
+
+.basemap-gallery img {
+  filter: grayscale();
+}
