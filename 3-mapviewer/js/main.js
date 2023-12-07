@@ -25,6 +25,9 @@ map.on("load", () => {
     id: "stvk-parkai",
     type: "raster",
     source: "stvk-source",
+    layout: {
+      visibility: "none",
+    },
     paint: {},
   });
 
@@ -39,6 +42,9 @@ map.on("load", () => {
     id: "uetk-hidroelektrines",
     type: "raster",
     source: "uetk-source",
+    layout: {
+      visibility: "none",
+    },
     paint: {},
   });
 
@@ -53,6 +59,31 @@ map.on("load", () => {
     id: "demo-layer",
     type: "raster",
     source: "demo-source",
-    paint: {},
+    layout: {
+      visibility: "none",
+    },
   });
 });
+
+function toggleLayer(layerName) {
+  const layerNameHtml = "layer-btn-" + layerName;
+
+  if (map.getLayoutProperty(layerName, "visibility") == "none") {
+    map.setLayoutProperty(layerName, "visibility", "visible");
+    document.getElementById(layerNameHtml).style.filter = "none";
+  } else {
+    map.setLayoutProperty(layerName, "visibility", "none");
+    document.getElementById(layerNameHtml).style.filter = "grayscale()";
+  }
+}
+
+let sidebarStatus = "visible";
+function toggleSidebar() {
+  if (sidebarStatus == "none") {
+    document.getElementById("mapapp-sidebar").style.display = "block";
+    sidebarStatus = "visible";
+  } else {
+    document.getElementById("mapapp-sidebar").style.display = "none";
+    sidebarStatus = "none";
+  }
+}

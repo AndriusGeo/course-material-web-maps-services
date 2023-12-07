@@ -24,7 +24,12 @@
     <div id="mapapp" class="container-fluid">
       <div id="mapapp-menu" class="row border-bottom align-items-center">
         <div class="col d-flex align-items-center">
-          <span class="material-symbols-outlined me-2">menu</span>
+          <span
+            role="button"
+            class="material-symbols-outlined me-2 curs"
+            onclick="toggleSidebar()"
+            >menu</span
+          >
           <p class="fw-normal mb-0">Organizacijos žemėlapis</p>
         </div>
         <div class="col text-end">
@@ -37,22 +42,24 @@
         </div>
       </div>
       <div id="mapapp-content" class="row bg-body-tertiary">
-        <div class="col-2">
+        <div id="mapapp-sidebar" class="col-2">
           <div class="row">
             <div class="bg-white py-2 border-bottom">Teminiai žemėlapiai</div>
             <div class="py-2 basemap-gallery">
               <img
-                src="img/map_bg_1.png"
+                id="layer-btn-demo-layer"
+                src="img/map_thematic_1.png"
                 class="img-fluid pb-3"
-                alt="Topografinis foninis žemėlapis"
-                onclick="changeMapStyle('topo');"
+                alt="Statistikos žemėlapis"
+                onclick="toggleLayer('demo-layer');"
                 role="button"
               />
               <img
-                src="img/map_bg_2.png"
+                id="layer-btn-stvk-parkai"
+                src="img/map_thematic_2.png"
                 class="img-fluid pb-3"
-                alt="Topografinis foninis žemėlapis"
-                onclick="changeMapStyle('default');"
+                alt="Statistikos žemėlapis"
+                onclick="toggleLayer('stvk-parkai');"
                 role="button"
               />
             </div>
@@ -77,7 +84,7 @@
             </div>
           </div>
         </div>
-        <div id="map" class="col-10"></div>
+        <div id="map" class="col-12"></div>
       </div>
     </div>
 

@@ -17,3 +17,11 @@
 .basemap-gallery img {
   filter: grayscale();
 }
+
+
+#mapapp-sidebar {
+  position: absolute;
+  z-index: 99999;
+  background-color: #ffff;
+  height: 94vh;
+}
