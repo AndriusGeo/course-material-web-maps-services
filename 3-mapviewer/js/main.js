@@ -6,14 +6,50 @@ var map = new maplibregl.Map({
   hash: true,
 });
 
-// Add zoom and rotation controls to the map.
 map.addControl(new maplibregl.NavigationControl());
 
 function changeMapStyle(styleType) {
+  removeLayer();
   map.setStyle("map_styles/" + styleType + ".openmap.style.json");
+
+  /*
+    Šioje vietoje turėtų būti naudojamas MapLibre GL įvykis style.load
+    Kol kas realizuojama su timeout, nes įvykis nesuveikia, aprašytas bug'as repozitorijoje
+  */
+  setTimeout(() => {
+    loadLayers();
+  }, "1000");
 }
 
 map.on("load", () => {
+  loadLayers();
+});
+
+function toggleLayer(layerName) {
+  const layerNameHtml = "layer-btn-" + layerName;
+
+  if (map.getLayoutProperty(layerName, "visibility") == "none") {
+    map.setLayoutProperty(layerName, "visibility", "visible");
+    document.getElementById(layerNameHtml).style.filter = "none";
+  } else {
+    map.setLayoutProperty(layerName, "visibility", "none");
+    document.getElementById(layerNameHtml).style.filter = "grayscale()";
+  }
+}
+
+let sidebarStatus = "visible";
+function toggleSidebar() {
+  if (sidebarStatus == "none") {
+    document.getElementById("mapapp-sidebar").style.display = "block";
+    sidebarStatus = "visible";
+  } else {
+    document.getElementById("mapapp-sidebar").style.display = "none";
+    sidebarStatus = "none";
+  }
+}
+
+function loadLayers() {
+  console.log("Loading layers");
   map.addSource("stvk-source", {
     type: "raster",
     tiles: [
@@ -63,27 +99,26 @@ map.on("load", () => {
       visibility: "none",
     },
   });
-});
-
-function toggleLayer(layerName) {
-  const layerNameHtml = "layer-btn-" + layerName;
-
-  if (map.getLayoutProperty(layerName, "visibility") == "none") {
-    map.setLayoutProperty(layerName, "visibility", "visible");
-    document.getElementById(layerNameHtml).style.filter = "none";
-  } else {
-    map.setLayoutProperty(layerName, "visibility", "none");
-    document.getElementById(layerNameHtml).style.filter = "grayscale()";
-  }
 }
 
-let sidebarStatus = "visible";
-function toggleSidebar() {
-  if (sidebarStatus == "none") {
-    document.getElementById("mapapp-sidebar").style.display = "block";
-    sidebarStatus = "visible";
-  } else {
-    document.getElementById("mapapp-sidebar").style.display = "none";
-    sidebarStatus = "none";
-  }
+function removeLayer() {
+  /*
+  
+    Apsvarstykite, kas būtų, jeigu mūsų žemėlapyje būtų 30 sluoksnių. 
+    Pagalvokite apie šios vietos išskaidymą į funkciją(-as).
+    
+    Kaip tą spręstumėte? 
+
+  */
+
+  console.log("Removing layers");
+  map.removeLayer("stvk-parkai");
+  map.removeLayer("uetk-hidroelektrines");
+  map.removeLayer("demo-layer");
+  document.getElementById("layer-btn-stvk-parkai").style.filter = "grayscale()";
+  document.getElementById("layer-btn-demo-layer").style.filter = "grayscale()";
+
+  map.removeSource("stvk-source");
+  map.removeSource("uetk-source");
+  map.removeSource("demo-source");
 }
